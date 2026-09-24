@@ -3,40 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iqbal App Hub - Cloud Edition</title>
+    <title>Iqbal App Hub - Play Store Edition</title>
     
-    <!-- Firebase App & Realtime Database SDKs -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Roboto, sans-serif; }
-        body { background-color: #f9f9f9; color: #202124; padding-bottom: 80px; }
-        .navbar { background: #ffffff; padding: 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .brand { font-size: 20px; font-weight: 700; color: #1a73e8; }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 16px; }
-        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #202124; }
-        .app-card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; background: #f1f3f4; }
+        body { background-color: #f8f9fa; color: #202124; padding-bottom: 90px; }
+        
+        /* Top Header */
+        .top-header { background: #ffffff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+        .brand-title { font-size: 20px; font-weight: 500; color: #1a73e8; }
+        
+        /* Navigation Tabs (For you, Top charts, etc.) */
+        .nav-tabs { display: flex; gap: 24px; padding: 0 16px; background: #fff; overflow-x: auto; border-bottom: 1px solid #e0e0e0; white-space: nowrap; }
+        .nav-tab { padding: 12px 0; font-size: 14px; font-weight: 500; color: #5f6368; cursor: pointer; border-bottom: 3px solid transparent; }
+        .nav-tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+
+        /* Container & Cards */
+        .container { max-width: 800px; margin: 16px auto; padding: 0 16px; }
+        .section-title { font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #202124; }
+        
+        .app-card { background: #fff; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .app-icon { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; background: #f1f3f4; }
         .app-info { flex: 1; }
-        .app-name { font-size: 16px; font-weight: 600; color: #202124; }
+        .app-name { font-size: 16px; font-weight: 500; color: #202124; }
         .app-dev { font-size: 13px; color: #5f6368; margin-top: 2px; }
-        .download-btn { background: #1a73e8; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 600; }
+        
+        .download-btn { background: #1a73e8; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: 500; }
+
+        /* Bottom Play Store Navbar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e0e0e0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368; font-size: 12px; font-weight: 500; }
+        .nav-item.active { color: #1a73e8; }
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="brand">Iqbal App Hub</div>
+    <!-- Header -->
+    <div class="top-header">
+        <div class="brand-title">Iqbal App Hub</div>
     </div>
 
+    <!-- Sub Tabs -->
+    <div class="nav-tabs">
+        <div class="nav-tab active">For you</div>
+        <div class="nav-tab">Top charts</div>
+        <div class="nav-tab">Other devices</div>
+        <div class="nav-tab">Kids</div>
+    </div>
+
+    <!-- App List Container -->
     <div class="container">
         <div class="section-title">Cloud Synced Applications</div>
         <div id="app-list">Loading apps from cloud...</div>
     </div>
 
+    <!-- Bottom Play Store Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-4c-.83 0-1.5-.67-1.5-1.5S17.67 8 18.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            Games
+        </a>
+        <a href="#" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+            Apps
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Search
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+            Books
+        </a>
+    </div>
+
     <script>
-        // Firebase Configuration (Shared Database)
+        // Shared Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSy...",
             authDomain: "iqbal-app-store.firebaseapp.com",
@@ -48,11 +95,9 @@
             measurementId: "G-DDKV8PASAI"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Real-time listener to load apps automatically from your database
         function loadApps() {
             const appListEl = document.getElementById('app-list');
             db.ref('apps').on('value', (snapshot) => {
@@ -68,7 +113,7 @@
                     appData.forEach(app => {
                         html += `
                             <div class="app-card">
-                                <img src="${app.appIcon || 'https://via.placeholder.com/60'}" class="app-icon" alt="Icon">
+                                <img src="${app.appIcon || 'https://via.placeholder.com/64'}" class="app-icon" alt="Icon">
                                 <div class="app-info">
                                     <div class="app-name">${app.appName}</div>
                                     <div class="app-dev">${app.appDev} • ${app.appCat || 'Tools'}</div>
