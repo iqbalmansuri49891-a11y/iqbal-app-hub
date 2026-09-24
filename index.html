@@ -126,7 +126,7 @@
         
         <div style="display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; margin: 20px 0; text-align: center; color: #5f6368; font-size: 13px;">
             <div><b>4.7 ★</b><br><span style="font-size: 11px;">13K reviews</span></div>
-            <div><b>24 MB</b><br><span style="font-size: 11px;">Size</span></div>
+            <div><b id="detail-downloads">0</b><br><span style="font-size: 11px;">Downloads</span></div>
             <div><b>12+</b><br><span style="font-size: 11px;">Rated for 12+</span></div>
         </div>
 
@@ -210,8 +210,15 @@
             if (filtered.length > 0) {
                 let html = '';
                 filtered.forEach((app) => {
+                    let safeName = (app.appName || '').replace(/'/g, "\\'");
+                    let safeDev = (app.appDev || '').replace(/'/g, "\\'");
+                    let safeCat = (app.appCat || 'Tools').replace(/'/g, "\\'");
+                    let safeIcon = (app.appIcon || 'https://via.placeholder.com/84').replace(/'/g, "\\'");
+                    let safeLink = (app.appLink || '#').replace(/'/g, "\\'");
+                    let safeDownloads = (app.appDownloads || app.downloads || '1').toString().replace(/'/g, "\\'");
+
                     html += `
-                        <div class="app-card" onclick="openAppDetail('${app.appName}', '${app.appDev}', '${app.appCat || 'Tools'}', '${app.appIcon || 'https://via.placeholder.com/84'}', '${app.appLink}')">
+                        <div class="app-card" onclick="openAppDetail('${safeName}', '${safeDev}', '${safeCat}', '${safeIcon}', '${safeLink}', '${safeDownloads}')">
                             <img src="${app.appIcon || 'https://via.placeholder.com/64'}" class="app-icon" alt="Icon">
                             <div class="app-info">
                                 <div class="app-name">${app.appName}</div>
@@ -227,7 +234,7 @@
             }
         }
 
-        function openAppDetail(name, dev, cat, icon, link) {
+        function openAppDetail(name, dev, cat, icon, link, downloads) {
             document.getElementById('main-view').style.display = 'none';
             document.getElementById('detail-page').style.display = 'block';
 
@@ -236,6 +243,7 @@
             document.getElementById('detail-cat').innerText = `Category: ${cat}`;
             document.getElementById('detail-icon').src = icon;
             document.getElementById('detail-install-btn').href = link;
+            document.getElementById('detail-downloads').innerText = downloads;
             window.scrollTo(0, 0);
         }
 
