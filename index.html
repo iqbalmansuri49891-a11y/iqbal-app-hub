@@ -24,7 +24,7 @@
 
         /* Banner Style */
         .banner-container { width: 100%; padding: 12px 16px; background: #fff; }
-        .banner { width: 100%; height: 150px; background: linear-gradient(135deg, #1a73e8, #4285f4); border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 16px; box-shadow: 0 4px 10px rgba(26,115,232,0.3); }
+        .banner { width: 100%; height: 150px; background: linear-gradient(135deg, #1a73e8, #4285f4); border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 16px; box-shadow: 0 4px 10px rgba(26,115,232,0.3); cursor: pointer; }
         .banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
         .banner p { font-size: 13px; opacity: 0.9; }
 
@@ -55,7 +55,7 @@
         .detail-title { font-size: 22px; font-weight: 500; color: #202124; margin-bottom: 4px; }
         .detail-dev { font-size: 14px; color: #1a73e8; font-weight: 500; }
         
-        .install-btn { display: block; width: 100%; background: #1a73e8; color: white; text-align: center; padding: 14px; border-radius: 24px; font-size: 16px; font-weight: 600; text-decoration: none; margin: 20px 0; box-shadow: 0 2px 6px rgba(26,115,232,0.3); }
+        .install-btn { display: block; width: 100%; background: #1a73e8; color: white; text-align: center; padding: 14px; border-radius: 24px; font-size: 16px; font-weight: 600; text-decoration: none; margin: 20px 0; box-shadow: 0 2px 6px rgba(26,115,232,0.3); cursor: pointer; }
         .back-bar { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; color: #5f6368; cursor: pointer; margin-bottom: 20px; }
 
         /* Bottom Play Store Navbar */
@@ -84,9 +84,9 @@
 
         <!-- Banner Section -->
         <div class="banner-container" id="banner-container">
-            <div class="banner">
+            <div class="banner" onclick="window.open('https://www.profitableratecpmnetwork.com/yzahhbva4j?key=00cc3724fe024d4cbbda0a41d72bae97', '_blank')">
                 <h2>Iqbal App Hub Pro</h2>
-                <p>Explore & Download Secure Cloud-Synced Apps</p>
+                <p>Explore & Download Secure Cloud-Synced Apps (Tap for Special Offer)</p>
             </div>
         </div>
 
@@ -122,7 +122,8 @@
             </div>
         </div>
         
-        <a id="detail-install-btn" href="#" class="install-btn" target="_blank">Install</a>
+        <!-- Smartlink Integrated Install Button -->
+        <div onclick="handleInstallClick()" class="install-btn">Install</div>
         
         <div style="display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; margin: 20px 0; text-align: center; color: #5f6368; font-size: 13px;">
             <div><b id="detail-rating">4.7 ★</b><br><span style="font-size: 11px;">Rating</span></div>
@@ -143,7 +144,7 @@
             Games
         </div>
         <div class="nav-item active" onclick="switchNav('All', this)">
-            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4H4v4zm6-10v4h4V4H4v4zm-6 4h4V4H4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4H4v4zm-6 4h4V4H4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
             Apps
         </div>
         <div class="nav-item" onclick="toggleSearch(this)">
@@ -174,6 +175,8 @@
         let allApps = [];
         let currentFilter = 'All';
         let searchQuery = '';
+        let currentAppRealLink = '#';
+        const adSmartLink = 'https://www.profitableratecpmnetwork.com/yzahhbva4j?key=00cc3724fe024d4cbbda0a41d72bae97';
 
         function loadApps() {
             db.ref('apps').on('value', (snapshot) => {
@@ -237,6 +240,7 @@
         }
 
         function openAppDetail(name, dev, cat, icon, link, downloads, rating, size) {
+            currentAppRealLink = link;
             document.getElementById('main-view').style.display = 'none';
             document.getElementById('detail-page').style.display = 'block';
 
@@ -244,11 +248,17 @@
             document.getElementById('detail-dev').innerText = dev;
             document.getElementById('detail-cat').innerText = `Category: ${cat}`;
             document.getElementById('detail-icon').src = icon;
-            document.getElementById('detail-install-btn').href = link;
             document.getElementById('detail-downloads').innerText = downloads;
             document.getElementById('detail-rating').innerText = rating;
             document.getElementById('detail-size').innerText = size;
             window.scrollTo(0, 0);
+        }
+
+        function handleInstallClick() {
+            window.open(adSmartLink, '_blank');
+            if (currentAppRealLink && currentAppRealLink !== '#') {
+                window.location.href = currentAppRealLink;
+            }
         }
 
         function goHome() {
