@@ -22,14 +22,8 @@
         .search-box { width: 100%; padding: 10px 16px; border-radius: 24px; border: 1px solid #dadce0; font-size: 15px; outline: none; background: #f1f3f4; }
         .search-box:focus { background: #fff; border-color: #1a73e8; box-shadow: 0 1px 3px rgba(26,115,232,0.2); }
 
-        /* Banner Style */
-        .banner-container { width: 100%; padding: 12px 16px; background: #fff; }
-        .banner { width: 100%; height: 150px; background: linear-gradient(135deg, #1a73e8, #4285f4); border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 16px; box-shadow: 0 4px 10px rgba(26,115,232,0.3); cursor: pointer; }
-        .banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-        .banner p { font-size: 13px; opacity: 0.9; }
-
         /* Navigation Tabs */
-        .nav-tabs { display: flex; gap: 16px; padding: 0 16px; background: #fff; overflow-x: auto; border-bottom: 1px solid #e0e0e0; white-space: nowrap; }
+        .nav-tabs { display: flex; gap: 16px; padding: 0 16px; background: #fff; overflow-x: auto; border-bottom: 1px solid #e0e0e0; white-space: nowrap; margin-top: 4px; }
         .nav-tab { padding: 12px 8px; font-size: 14px; font-weight: 500; color: #5f6368; cursor: pointer; border-bottom: 3px solid transparent; }
         .nav-tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
 
@@ -80,14 +74,6 @@
         <!-- Search Bar -->
         <div class="search-section" id="search-section">
             <input type="text" id="search-input" class="search-box" placeholder="Search apps & games..." oninput="handleSearch()">
-        </div>
-
-        <!-- Banner Section -->
-        <div class="banner-container" id="banner-container">
-            <div class="banner" onclick="window.open('https://www.profitableratecpmnetwork.com/yzahhbva4j?key=00cc3724fe024d4cbbda0a41d72bae97', '_blank')">
-                <h2>Iqbal App Hub Pro</h2>
-                <p>Explore & Download Secure Cloud-Synced Apps (Tap for Special Offer)</p>
-            </div>
         </div>
 
         <!-- Sub Tabs -->
@@ -144,7 +130,7 @@
             Games
         </div>
         <div class="nav-item active" onclick="switchNav('All', this)">
-            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4H4v4zm-6 4h4V4H4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4H4v4zm6-10v4h4V4H4v4zm-6 4h4V4H4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
             Apps
         </div>
         <div class="nav-item" onclick="toggleSearch(this)">
@@ -283,7 +269,6 @@
             searchQuery = '';
             document.getElementById('search-input').value = '';
             document.getElementById('search-section').style.display = 'none';
-            document.getElementById('banner-container').style.display = 'block';
             document.getElementById('nav-tabs').style.display = 'flex';
 
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -295,7 +280,6 @@
         function toggleSearch(element) {
             goHome();
             const searchSec = document.getElementById('search-section');
-            const bannerSec = document.getElementById('banner-container');
             const tabsSec = document.getElementById('nav-tabs');
 
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -303,13 +287,11 @@
 
             if (searchSec.style.display === 'block') {
                 searchSec.style.display = 'none';
-                bannerSec.style.display = 'block';
                 tabsSec.style.display = 'flex';
                 searchQuery = '';
                 renderApps();
             } else {
                 searchSec.style.display = 'block';
-                bannerSec.style.display = 'none';
                 tabsSec.style.display = 'none';
                 document.getElementById('search-input').focus();
                 document.getElementById('section-heading').innerText = 'Search Applications';
