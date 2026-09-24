@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iqbal App Hub - Play Store Edition</title>
+    <title>Iqbal App Hub - Play Store Pro</title>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -14,13 +14,18 @@
         body { background-color: #f8f9fa; color: #202124; padding-bottom: 90px; }
         
         /* Top Header */
-        .top-header { background: #ffffff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+        .top-header { background: #ffffff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
         .brand-title { font-size: 20px; font-weight: 500; color: #1a73e8; }
         
-        /* Banner Slider Style */
+        /* Search Bar Section */
+        .search-section { padding: 10px 16px; background: #fff; display: none; border-bottom: 1px solid #e0e0e0; }
+        .search-box { width: 100%; padding: 10px 16px; border-radius: 24px; border: 1px solid #dadce0; font-size: 15px; outline: none; background: #f1f3f4; }
+        .search-box:focus { background: #fff; border-color: #1a73e8; box-shadow: 0 1px 3px rgba(26,115,232,0.2); }
+
+        /* Banner Style */
         .banner-container { width: 100%; padding: 12px 16px; background: #fff; }
-        .banner { width: 100%; height: 160px; background: linear-gradient(135deg, #1a73e8, #4285f4); border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 16px; box-shadow: 0 4px 10px rgba(26,115,232,0.3); }
-        .banner h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+        .banner { width: 100%; height: 150px; background: linear-gradient(135deg, #1a73e8, #4285f4); border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 16px; box-shadow: 0 4px 10px rgba(26,115,232,0.3); }
+        .banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
         .banner p { font-size: 13px; opacity: 0.9; }
 
         /* Navigation Tabs */
@@ -30,9 +35,12 @@
 
         /* Container & Cards */
         .container { max-width: 800px; margin: 16px auto; padding: 0 16px; }
-        .section-title { font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #202124; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .section-title { font-size: 16px; font-weight: 500; color: #202124; }
+        .app-count { font-size: 12px; color: #5f6368; }
         
-        .app-card { background: #fff; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .app-card { background: #fff; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: transform 0.2s; }
+        .app-card:active { transform: scale(0.98); }
         .app-icon { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; background: #f1f3f4; }
         .app-info { flex: 1; }
         .app-name { font-size: 16px; font-weight: 500; color: #202124; }
@@ -54,16 +62,21 @@
         <div class="brand-title">Iqbal App Hub</div>
     </div>
 
+    <!-- Search Bar (Hidden by default, toggled via bottom search button) -->
+    <div class="search-section" id="search-section">
+        <input type="text" id="search-input" class="search-box" placeholder="Search apps & games..." oninput="handleSearch()">
+    </div>
+
     <!-- Banner Section -->
-    <div class="banner-container">
+    <div class="banner-container" id="banner-container">
         <div class="banner">
-            <h2>Welcome to Iqbal App Hub</h2>
-            <p>Discover & Download Cloud-Synced Android Apps & Games</p>
+            <h2>Iqbal App Hub Pro</h2>
+            <p>Explore & Download Secure Cloud-Synced Apps</p>
         </div>
     </div>
 
     <!-- Sub Tabs -->
-    <div class="nav-tabs">
+    <div class="nav-tabs" id="nav-tabs">
         <div class="nav-tab active" onclick="filterCategory('All', this)">For you</div>
         <div class="nav-tab" onclick="filterCategory('Games', this)">Games</div>
         <div class="nav-tab" onclick="filterCategory('Tools', this)">Tools</div>
@@ -72,7 +85,10 @@
 
     <!-- App List Container -->
     <div class="container">
-        <div class="section-title" id="section-heading">Cloud Synced Applications</div>
+        <div class="section-header">
+            <div class="section-title" id="section-heading">Cloud Synced Applications</div>
+            <div class="app-count" id="app-count">0 apps</div>
+        </div>
         <div id="app-list">Loading apps from cloud...</div>
     </div>
 
@@ -86,7 +102,7 @@
             <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4H4v4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
             Apps
         </div>
-        <div class="nav-item" onclick="alert('Search feature is active via live database sync!')">
+        <div class="nav-item" onclick="toggleSearch(this)">
             <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             Search
         </div>
@@ -113,6 +129,7 @@
 
         let allApps = [];
         let currentFilter = 'All';
+        let searchQuery = '';
 
         function loadApps() {
             db.ref('apps').on('value', (snapshot) => {
@@ -126,6 +143,7 @@
                     renderApps();
                 } else {
                     document.getElementById('app-list').innerHTML = '<p style="padding: 10px;">No apps found in cloud database.</p>';
+                    document.getElementById('app-count').innerText = '0 apps';
                 }
             });
         }
@@ -134,9 +152,18 @@
             const appListEl = document.getElementById('app-list');
             let filtered = allApps;
 
+            // Category filter
             if (currentFilter !== 'All' && currentFilter !== 'Top charts') {
-                filtered = allApps.filter(app => (app.appCat || '').toLowerCase() === currentFilter.toLowerCase());
+                filtered = filtered.filter(app => (app.appCat || '').toLowerCase() === currentFilter.toLowerCase());
             }
+
+            // Search query filter
+            if (searchQuery.trim() !== '') {
+                filtered = filtered.filter(app => (app.appName || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                                   (app.appDev || '').toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+
+            document.getElementById('app-count').innerText = `${filtered.length} apps`;
 
             if (filtered.length > 0) {
                 let html = '';
@@ -154,12 +181,14 @@
                 });
                 appListEl.innerHTML = html;
             } else {
-                appListEl.innerHTML = `<p style="padding: 10px; color: #5f6368;">No applications found in '${currentFilter}'.</p>`;
+                appListEl.innerHTML = `<p style="padding: 20px; text-align: center; color: #5f6368;">No matching applications found.</p>`;
             }
         }
 
         function filterCategory(cat, element) {
             currentFilter = cat;
+            searchQuery = '';
+            document.getElementById('search-input').value = '';
             document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
             if(element) element.classList.add('active');
             document.getElementById('section-heading').innerText = cat === 'All' ? 'Cloud Synced Applications' : `${cat} Apps`;
@@ -168,9 +197,43 @@
 
         function switchNav(cat, element) {
             currentFilter = cat;
+            searchQuery = '';
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-section').style.display = 'none';
+            document.getElementById('banner-container').style.display = 'block';
+            document.getElementById('nav-tabs').style.display = 'flex';
+
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if(element) element.classList.add('active');
             document.getElementById('section-heading').innerText = cat === 'All' ? 'Cloud Synced Applications' : `${cat} Apps`;
+            renderApps();
+        }
+
+        function toggleSearch(element) {
+            const searchSec = document.getElementById('search-section');
+            const bannerSec = document.getElementById('banner-container');
+            const tabsSec = document.getElementById('nav-tabs');
+
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            if (searchSec.style.display === 'block') {
+                searchSec.style.display = 'none';
+                bannerSec.style.display = 'block';
+                tabsSec.style.display = 'flex';
+                searchQuery = '';
+                renderApps();
+            } else {
+                searchSec.style.display = 'block';
+                bannerSec.style.display = 'none';
+                tabsSec.style.display = 'none';
+                document.getElementById('search-input').focus();
+                document.getElementById('section-heading').innerText = 'Search Applications';
+            }
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value;
             renderApps();
         }
 
